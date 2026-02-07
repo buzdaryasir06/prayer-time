@@ -732,7 +732,6 @@
         }
 
         .day-cell {
-            aspect-ratio: 1;
             border-radius: var(--radius-sm);
             background: var(--bg-card);
             border: 1px solid transparent;
@@ -741,17 +740,20 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            padding: var(--space-sm);
-            min-height: 60px;
+            justify-content: flex-start;
+            padding: 0.5rem;
+            min-height: 4rem;
+            overflow: hidden;
+            gap: 0.25rem;
+            position: relative;
         }
 
         @media (min-width: 768px) {
             .day-cell {
-                min-height: 80px;
-                padding: var(--space-md);
-                justify-content: flex-start;
+                min-height: 6.5rem;
+                padding: 0.75rem;
                 align-items: flex-start;
+                gap: 0.375rem;
             }
         }
 
@@ -767,7 +769,16 @@
         }
 
         .day-cell.selected {
-            border-color: var(--accent-secondary);
+            background: rgba(99, 102, 241, 0.10);
+            border: 2px solid var(--accent-primary);
+        }
+
+        .day-cell.selected .day-num {
+            color: var(--text-primary);
+        }
+
+        .day-cell.selected .day-hijri {
+            color: var(--text-secondary);
         }
 
         .day-cell.empty {
@@ -794,15 +805,223 @@
         .day-times {
             display: none;
             flex-direction: column;
-            gap: 3px;
-            margin-top: var(--space-sm);
+            gap: 0.1875rem;
+            margin-top: 0.25rem;
             width: 100%;
+            flex: 1 1 auto;
+            overflow: hidden;
+            max-height: 2.5rem;
         }
 
         @media (min-width: 768px) {
             .day-times {
                 display: flex;
+                max-height: none;
             }
+        }
+
+        /* Show More Button */
+        .show-more-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            padding: 0.25rem;
+            margin-top: auto;
+            background: transparent;
+            border: none;
+            color: var(--accent-primary);
+            font-size: 0.6rem;
+            font-weight: 600;
+            font-family: inherit;
+            cursor: pointer;
+            opacity: 0.8;
+            transition: opacity var(--duration-fast) var(--ease-out);
+        }
+
+        .show-more-btn:hover {
+            opacity: 1;
+        }
+
+        @media (min-width: 768px) {
+            .show-more-btn {
+                font-size: 0.65rem;
+            }
+        }
+
+        /* Prayer Modal */
+        .prayer-modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            z-index: 2000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            opacity: 0;
+            transition: opacity var(--duration-normal) var(--ease-out);
+        }
+
+        .prayer-modal-overlay.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        @media (max-width: 480px) {
+            .prayer-modal-overlay {
+                align-items: flex-end;
+                padding: 0;
+            }
+        }
+
+        .prayer-modal {
+            background: var(--bg-elevated);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-xl);
+            width: 100%;
+            max-width: 400px;
+            max-height: 90vh;
+            overflow-y: auto;
+            transform: translateY(20px);
+            transition: transform var(--duration-normal) var(--ease-out);
+        }
+
+        .prayer-modal-overlay.active .prayer-modal {
+            transform: translateY(0);
+        }
+
+        @media (max-width: 480px) {
+            .prayer-modal {
+                max-width: none;
+                border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+                max-height: 80vh;
+            }
+        }
+
+        .prayer-modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1.25rem 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .modal-date-info {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .modal-date-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .modal-hijri-date {
+            font-size: 0.85rem;
+            color: var(--accent-secondary);
+        }
+
+        .modal-close-btn {
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: var(--radius-sm);
+            background: var(--bg-glass);
+            border: 1px solid var(--glass-border);
+            color: var(--text-primary);
+            font-size: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all var(--duration-fast) var(--ease-out);
+        }
+
+        .modal-close-btn:hover {
+            background: var(--bg-glass-hover);
+        }
+
+        .prayer-modal-times {
+            padding: 1rem 1.5rem 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .modal-prayer-row {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            background: var(--bg-card);
+            border-radius: var(--radius-md);
+            transition: background var(--duration-fast) var(--ease-out);
+        }
+
+        .modal-prayer-row:hover {
+            background: var(--bg-glass-hover);
+        }
+
+        .modal-prayer-icon {
+            width: 2.75rem;
+            height: 2.75rem;
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            font-size: 1rem;
+        }
+
+        .modal-prayer-row.fajr .modal-prayer-icon {
+            background: rgba(129, 140, 248, 0.12);
+            color: var(--fajr);
+        }
+
+        .modal-prayer-row.dhuhr .modal-prayer-icon {
+            background: rgba(52, 211, 153, 0.12);
+            color: var(--dhuhr);
+        }
+
+        .modal-prayer-row.asr .modal-prayer-icon {
+            background: rgba(252, 211, 77, 0.12);
+            color: var(--asr);
+        }
+
+        .modal-prayer-row.maghrib .modal-prayer-icon {
+            background: rgba(251, 146, 60, 0.12);
+            color: var(--maghrib);
+        }
+
+        .modal-prayer-row.isha .modal-prayer-icon {
+            background: rgba(192, 132, 252, 0.12);
+            color: var(--isha);
+        }
+
+        .modal-prayer-details {
+            flex: 1;
+        }
+
+        .modal-prayer-name {
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: var(--text-primary);
+        }
+
+        .modal-prayer-desc {
+            font-size: 0.75rem;
+            color: var(--text-tertiary);
+            margin-top: 0.125rem;
+        }
+
+        .modal-prayer-time {
+            font-size: 1.15rem;
+            font-weight: 700;
+            font-variant-numeric: tabular-nums;
+            color: var(--text-primary);
         }
 
         .day-time {
@@ -934,12 +1153,12 @@
             }
 
             .calendar-grid {
-                gap: 4px;
+                gap: 0.25rem;
             }
 
             .day-cell {
-                min-height: 50px;
-                border-radius: 8px;
+                min-height: 3.5rem;
+                border-radius: 0.5rem;
             }
         }
     </style>
@@ -1056,6 +1275,20 @@
         </footer>
     </div>
 
+    <!-- Prayer Modal -->
+    <div class="prayer-modal-overlay" id="prayer-modal-overlay">
+        <div class="prayer-modal">
+            <div class="prayer-modal-header">
+                <div class="modal-date-info">
+                    <div class="modal-date-title" id="modal-date-title">Prayer Times</div>
+                    <div class="modal-hijri-date" id="modal-hijri-date"></div>
+                </div>
+                <button class="modal-close-btn" id="modal-close-btn">×</button>
+            </div>
+            <div class="prayer-modal-times" id="modal-prayer-times"></div>
+        </div>
+    </div>
+
     <script>
         // =====================================
         // PRAYER TIMES APP
@@ -1093,6 +1326,7 @@
         let calculationMethod = 3;
         let nextPrayerTimer = null;
         let searchDebounceTimer = null;
+        let monthlyCalendarData = {}; // Store monthly data for modal
 
         // Storage
         const saveLocation = city => localStorage.setItem('prayerCity', JSON.stringify(city));
@@ -1328,6 +1562,14 @@
                 return;
             }
 
+            // Store data for modal
+            monthlyCalendarData = {};
+            data.forEach(d => {
+                if (d.date?.gregorian?.date) {
+                    monthlyCalendarData[d.date.gregorian.date] = d;
+                }
+            });
+
             if (data.length) {
                 const h = data.find(d => d.date?.hijri);
                 if (h) hijriMonthEl.textContent = `${h.date.hijri.month.en} ${h.date.hijri.year}`;
@@ -1347,7 +1589,7 @@
                 const isSel = date.toDateString() === selectedDate.toDateString();
 
                 html += `
-                    <div class="day-cell ${isToday ? 'today' : ''} ${isSel ? 'selected' : ''}" data-date="${date.toISOString()}">
+                    <div class="day-cell ${isToday ? 'today' : ''} ${isSel ? 'selected' : ''}" data-date="${date.toISOString()}" data-datestr="${dateStr}">
                         <div class="day-num">${d}</div>
                         <div class="day-hijri">${dayData?.date.hijri.day || ''}</div>
                         ${dayData ? `
@@ -1355,6 +1597,7 @@
                                 <div class="day-time fajr"><span>Fajr</span><span>${formatTime12h(dayData.timings.Fajr)}</span></div>
                                 <div class="day-time maghrib"><span>Maghrib</span><span>${formatTime12h(dayData.timings.Maghrib)}</span></div>
                             </div>
+                            <button class="show-more-btn" data-datestr="${dateStr}">View All +</button>
                         ` : ''}
                     </div>
                 `;
@@ -1362,14 +1605,89 @@
 
             calendarContainer.innerHTML = html;
 
+            // Day cell click for selecting date
             document.querySelectorAll('.day-cell:not(.empty)').forEach(el => {
-                el.onclick = () => {
+                el.onclick = (e) => {
+                    // Don't trigger if clicking the show more button
+                    if (e.target.classList.contains('show-more-btn')) return;
                     selectedDate = new Date(el.dataset.date);
                     renderPrayers();
                     renderCalendar();
                 };
             });
+
+            // Show More button click for opening modal
+            document.querySelectorAll('.show-more-btn').forEach(btn => {
+                btn.onclick = (e) => {
+                    e.stopPropagation();
+                    openPrayerModal(btn.dataset.datestr);
+                };
+            });
         }
+
+        // =====================================
+        // PRAYER MODAL FUNCTIONS
+        // =====================================
+        const modalOverlay = document.getElementById('prayer-modal-overlay');
+        const modalCloseBtn = document.getElementById('modal-close-btn');
+        const modalDateTitle = document.getElementById('modal-date-title');
+        const modalHijriDate = document.getElementById('modal-hijri-date');
+        const modalPrayerTimes = document.getElementById('modal-prayer-times');
+
+        function openPrayerModal(dateStr) {
+            const dayData = monthlyCalendarData[dateStr];
+            if (!dayData) return;
+
+            const { timings, date: dateInfo } = dayData;
+
+            // Format Gregorian date
+            const [day, month, year] = dateStr.split('-');
+            const gregDate = new Date(year, month - 1, day);
+            const dateDisplayStr = gregDate.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });
+
+            modalDateTitle.textContent = dateDisplayStr;
+            modalHijriDate.textContent = `${dateInfo.hijri.day} ${dateInfo.hijri.month.en} ${dateInfo.hijri.year} AH`;
+
+            // Render all 5 prayers
+            const prayerInfo = [
+                { name: 'Fajr', desc: 'Dawn Prayer', icon: 'sun', key: 'Fajr' },
+                { name: 'Dhuhr', desc: 'Noon Prayer', icon: 'sun', key: 'Dhuhr' },
+                { name: 'Asr', desc: 'Afternoon Prayer', icon: 'sun', key: 'Asr' },
+                { name: 'Maghrib', desc: 'Sunset Prayer', icon: 'cloud-sun', key: 'Maghrib' },
+                { name: 'Isha', desc: 'Night Prayer', icon: 'moon', key: 'Isha' }
+            ];
+
+            modalPrayerTimes.innerHTML = prayerInfo.map(p => `
+                <div class="modal-prayer-row ${p.name.toLowerCase()}">
+                    <div class="modal-prayer-icon"><i class="fas fa-${p.icon}"></i></div>
+                    <div class="modal-prayer-details">
+                        <div class="modal-prayer-name">${p.name}</div>
+                        <div class="modal-prayer-desc">${p.desc}</div>
+                    </div>
+                    <div class="modal-prayer-time">${formatTime12h(timings[p.key])}</div>
+                </div>
+            `).join('');
+
+            // Show modal
+            modalOverlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closePrayerModal() {
+            modalOverlay.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // Modal event listeners
+        modalCloseBtn.addEventListener('click', closePrayerModal);
+        modalOverlay.addEventListener('click', (e) => {
+            if (e.target === modalOverlay) closePrayerModal();
+        });
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && modalOverlay.classList.contains('active')) {
+                closePrayerModal();
+            }
+        });
 
         // Events
         locationInput.addEventListener('input', () => {
